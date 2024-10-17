@@ -1,0 +1,60 @@
+========================================
+{
+  "type": "source_file",
+  "value": "// This is a single-line comment"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "/* This is a \n multi-line comment */"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "action exampleAction"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "apiNamespace myApiNamespace"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "\"This is a string value\""
+}
+========================================
+{
+  "type": "source_file",
+  "value": "12345"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "true"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "import { something } from \"@src/module\""
+}
+========================================
+{
+  "type": "source_file",
+  "value": "{=json \"key\": \"value\" json=}"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "{=psl model Task {} psl=}"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "[1, 2, 3, 4]"
+}
+========================================
+{
+  "type": "source_file",
+  "value": "{ key1: \"value1\", key2: \"value2\" }"
+}

@@ -1,3 +1,12 @@
+/**
+ * @file Wasp grammar for tree-sitter
+ * @author Bartosz Burclaf <burclaf@gmail.com>
+ * @license MIT
+ */
+
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 module.exports = grammar({
   name: 'wasp',
 
@@ -85,4 +94,3 @@ module.exports = grammar({
     string_content: $ => /\\./
   }
 });
-
