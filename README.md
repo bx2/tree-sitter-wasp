@@ -66,3 +66,30 @@ vim.filetype.add({
 })
 ```
 
+## Development
+
+Install tree-sitter-cli:
+
+```
+npm -g install tree-sitter-cli
+tree-sitter init-config
+```
+
+After adding changes to the `grammar.js` or to the highlights (`queries/wasp/highlighlights.scm`),
+you can either manually verify your changes by running:
+
+```
+tree-sitter generate && tree-sitter test && tree-sitter build --wasm
+# or use the helper script: ./bin/rebuild.sh
+```
+
+then, run the playground to test your changes by running:
+
+```
+tree-sitter playground
+```
+
+> [!TIP]
+> If you don't want to use the playground, you can also open the wasp file you want to test and execute `:Inspect` or `:InspectTree` inside of the neovim.
+
+
