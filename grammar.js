@@ -85,6 +85,7 @@ module.exports = grammar({
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
 
     string: $ => /"(\\.|[^"])*"/,
+
     path: $ => token(seq('"@src/', /[^"]*/, '"')),
 
     number: $ => /[0-9]+(\.[0-9]+)?/,
