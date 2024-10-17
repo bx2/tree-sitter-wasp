@@ -6,10 +6,10 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_definition"
+        "name": "definition"
       }
     },
-    "_definition": {
+    "definition": {
       "type": "CHOICE",
       "members": [
         {
@@ -18,11 +18,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type_declaration"
+          "name": "type"
         },
         {
           "type": "SYMBOL",
-          "name": "variable_declaration"
+          "name": "variable"
         },
         {
           "type": "SYMBOL",
@@ -65,24 +65,57 @@
         }
       ]
     },
-    "type_declaration": {
+    "type": {
       "type": "TOKEN",
       "content": {
-        "type": "PREC",
-        "value": 2,
-        "content": {
-          "type": "PATTERN",
-          "value": "(action|apiNamespace|api|app|entity|job|page|query|route|crud)"
-        }
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "action"
+          },
+          {
+            "type": "STRING",
+            "value": "apiNamespace"
+          },
+          {
+            "type": "STRING",
+            "value": "api"
+          },
+          {
+            "type": "STRING",
+            "value": "app"
+          },
+          {
+            "type": "STRING",
+            "value": "entity"
+          },
+          {
+            "type": "STRING",
+            "value": "job"
+          },
+          {
+            "type": "STRING",
+            "value": "page"
+          },
+          {
+            "type": "STRING",
+            "value": "query"
+          },
+          {
+            "type": "STRING",
+            "value": "route"
+          },
+          {
+            "type": "STRING",
+            "value": "crud"
+          }
+        ]
       }
     },
-    "variable_declaration": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "PATTERN",
-        "value": "[a-zA-Z][0-9a-zA-Z]*"
-      }
+    "variable": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z][0-9a-zA-Z]*"
     },
     "value": {
       "type": "CHOICE",
@@ -117,11 +150,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "dict"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "variable"
+          "name": "dictionary"
         }
       ]
     },
@@ -142,8 +171,8 @@
                 "name": "string_content"
               },
               {
-                "type": "PATTERN",
-                "value": "[^\"\\\\]"
+                "type": "SYMBOL",
+                "name": "escape_sequence"
               }
             ]
           }
@@ -154,24 +183,97 @@
         }
       ]
     },
+    "string_content": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\"\\\\]+"
+        }
+      }
+    },
+    "escape_sequence": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\\\."
+      }
+    },
     "number": {
-      "type": "PATTERN",
-      "value": "-?\\d+(\\.\\d+)?"
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "-?\\d+(\\.\\d+)?"
+      }
     },
     "constant": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "(true|false)"
+          "type": "STRING",
+          "value": "true"
         },
         {
-          "type": "PATTERN",
-          "value": "(EmailAndPassword|PostgreSQL|SQLite|Simple|PgBoss|SMTP|SendGrid|Mailgun|Dummy)"
+          "type": "STRING",
+          "value": "false"
         },
         {
-          "type": "PATTERN",
-          "value": "(ALL|GET|POST|PUT|DELETE)"
+          "type": "STRING",
+          "value": "EmailAndPassword"
+        },
+        {
+          "type": "STRING",
+          "value": "PostgreSQL"
+        },
+        {
+          "type": "STRING",
+          "value": "SQLite"
+        },
+        {
+          "type": "STRING",
+          "value": "Simple"
+        },
+        {
+          "type": "STRING",
+          "value": "PgBoss"
+        },
+        {
+          "type": "STRING",
+          "value": "SMTP"
+        },
+        {
+          "type": "STRING",
+          "value": "SendGrid"
+        },
+        {
+          "type": "STRING",
+          "value": "Mailgun"
+        },
+        {
+          "type": "STRING",
+          "value": "Dummy"
+        },
+        {
+          "type": "STRING",
+          "value": "ALL"
+        },
+        {
+          "type": "STRING",
+          "value": "GET"
+        },
+        {
+          "type": "STRING",
+          "value": "POST"
+        },
+        {
+          "type": "STRING",
+          "value": "PUT"
+        },
+        {
+          "type": "STRING",
+          "value": "DELETE"
         }
       ]
     },
@@ -183,8 +285,16 @@
           "value": "import"
         },
         {
-          "type": "SYMBOL",
-          "name": "variable"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "import_statement"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -196,23 +306,40 @@
         }
       ]
     },
-    "json_closure": {
+    "import_statement": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "{=json"
+          "value": "{"
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_definition"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "variable"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
           }
         },
         {
           "type": "STRING",
-          "value": "json=}"
+          "value": "}"
         }
       ]
     },
@@ -226,13 +353,33 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_definition"
+            "type": "PATTERN",
+            "value": "[^=]*"
           }
         },
         {
           "type": "STRING",
           "value": "psl=}"
+        }
+      ]
+    },
+    "json_closure": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{=json"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^=]*"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "json=}"
         }
       ]
     },
@@ -250,24 +397,24 @@
               "type": "SEQ",
               "members": [
                 {
+                  "type": "SYMBOL",
+                  "name": "value"
+                },
+                {
                   "type": "REPEAT",
                   "content": {
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "_definition"
-                      },
-                      {
                         "type": "STRING",
                         "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "value"
                       }
                     ]
                   }
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_definition"
                 }
               ]
             },
@@ -282,7 +429,7 @@
         }
       ]
     },
-    "dict": {
+    "dictionary": {
       "type": "SEQ",
       "members": [
         {
@@ -296,40 +443,24 @@
               "type": "SEQ",
               "members": [
                 {
+                  "type": "SYMBOL",
+                  "name": "dict_entry"
+                },
+                {
                   "type": "REPEAT",
                   "content": {
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "SYMBOL",
-                        "name": "dict_key"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": ":"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_definition"
-                      },
-                      {
                         "type": "STRING",
                         "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "dict_entry"
                       }
                     ]
                   }
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "dict_key"
-                },
-                {
-                  "type": "STRING",
-                  "value": ":"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_definition"
                 }
               ]
             },
@@ -344,30 +475,22 @@
         }
       ]
     },
-    "dict_key": {
-      "type": "CHOICE",
+    "dict_entry": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[a-zA-Z_][0-9a-zA-Z_]*"
+          "type": "SYMBOL",
+          "name": "variable"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
         },
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "value"
         }
       ]
-    },
-    "variable": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "PATTERN",
-        "value": "[a-zA-Z][0-9a-zA-Z]*"
-      }
-    },
-    "string_content": {
-      "type": "PATTERN",
-      "value": "\\\\."
     }
   },
   "extras": [
@@ -376,12 +499,7 @@
       "value": "\\s"
     }
   ],
-  "conflicts": [
-    [
-      "variable_declaration",
-      "variable"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [],
   "inline": [],

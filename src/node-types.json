@@ -8,19 +8,7 @@
       "required": false,
       "types": [
         {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
-          "named": true
-        },
-        {
           "type": "value",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
           "named": true
         }
       ]
@@ -37,23 +25,19 @@
     "fields": {}
   },
   {
-    "type": "dict",
+    "type": "definition",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "comment",
           "named": true
         },
         {
-          "type": "dict_key",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
+          "type": "type",
           "named": true
         },
         {
@@ -61,22 +45,56 @@
           "named": true
         },
         {
-          "type": "variable_declaration",
+          "type": "variable",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "dict_key",
+    "type": "dict_entry",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dictionary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "string",
+          "type": "dict_entry",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "import_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "variable",
           "named": true
         }
       ]
@@ -91,11 +109,11 @@
       "required": true,
       "types": [
         {
-          "type": "string",
+          "type": "import_statement",
           "named": true
         },
         {
-          "type": "variable",
+          "type": "string",
           "named": true
         }
       ]
@@ -104,56 +122,12 @@
   {
     "type": "json_closure",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "prisma_closure",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "source_file",
@@ -165,19 +139,7 @@
       "required": false,
       "types": [
         {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "type_declaration",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        },
-        {
-          "type": "variable_declaration",
+          "type": "definition",
           "named": true
         }
       ]
@@ -191,6 +153,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
         {
           "type": "string_content",
           "named": true
@@ -215,7 +181,7 @@
           "named": true
         },
         {
-          "type": "dict",
+          "type": "dictionary",
           "named": true
         },
         {
@@ -237,23 +203,9 @@
         {
           "type": "string",
           "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "variable",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "variable_declaration",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "\"",
@@ -280,11 +232,75 @@
     "named": false
   },
   {
+    "type": "ALL",
+    "named": false
+  },
+  {
+    "type": "DELETE",
+    "named": false
+  },
+  {
+    "type": "Dummy",
+    "named": false
+  },
+  {
+    "type": "EmailAndPassword",
+    "named": false
+  },
+  {
+    "type": "GET",
+    "named": false
+  },
+  {
+    "type": "Mailgun",
+    "named": false
+  },
+  {
+    "type": "POST",
+    "named": false
+  },
+  {
+    "type": "PUT",
+    "named": false
+  },
+  {
+    "type": "PgBoss",
+    "named": false
+  },
+  {
+    "type": "PostgreSQL",
+    "named": false
+  },
+  {
+    "type": "SMTP",
+    "named": false
+  },
+  {
+    "type": "SQLite",
+    "named": false
+  },
+  {
+    "type": "SendGrid",
+    "named": false
+  },
+  {
+    "type": "Simple",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
   {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "false",
     "named": false
   },
   {
@@ -312,7 +328,15 @@
     "named": true
   },
   {
-    "type": "type_declaration",
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": true
+  },
+  {
+    "type": "variable",
     "named": true
   },
   {

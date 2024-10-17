@@ -7,89 +7,119 @@
 /// <reference types="tree-sitter-cli/dsl" />
 
 module.exports = grammar({
-    name: 'wasp',
+  name: 'wasp',
 
-    conflicts: $ => [
-        [$.variable_declaration, $.variable]
-    ],
+  rules: {
+    source_file: $ => repeat($.definition),
 
-    rules: {
-        source_file: $ => repeat($._definition),
+    definition: $ => choice(
+      $.comment,
+      $.type,
+      $.variable,
+      $.value
+    ),
 
-        _definition: $ => choice(
-            $.comment,
-            $.type_declaration,
-            $.variable_declaration,
-            $.value
-        ),
 
-        comment: $ => choice(
-            seq('//', /.*/),
-            seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '*/')
-        ),
+    comment: $ => choice(
+        seq('//', /.*/),
+        seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '*/')
+    ),
 
-        type_declaration: $ => token(prec(2, /(action|apiNamespace|api|app|entity|job|page|query|route|crud)/)),
+    type: $ => token(choice(
+      'action',
+      'apiNamespace',
+      'api',
+      'app',
+      'entity',
+      'job',
+      'page',
+      'query',
+      'route',
+      'crud'
+    )),
 
-        variable_declaration: $ => prec(1, /[a-zA-Z][0-9a-zA-Z]*/),
+    variable: $ => /[a-zA-Z][0-9a-zA-Z]*/,
 
-        value: $ => choice(
-            $.string,
-            $.number,
-            $.constant,
-            $.js_import,
-            $.prisma_closure,
-            $.json_closure,
-            $.array,
-            $.dict,
-            $.variable
-        ),
+    value: $ => choice(
+      $.string,
+      $.number,
+      $.constant,
+      $.js_import,
+      $.prisma_closure,
+      $.json_closure,
+      $.array,
+      $.dictionary
+    ),
 
-        string: $ => seq('"', repeat(choice($.string_content, /[^"\\]/)), '"'),
+    string: $ => seq(
+      '"',
+      repeat(choice($.string_content, $.escape_sequence)),
+      '"'
+    ),
 
-        number: $ => /-?\d+(\.\d+)?/,
+    string_content: $ => token.immediate(prec(1, /[^"\\]+/)),
 
-        constant: $ => choice(
-            /(true|false)/,
-            /(EmailAndPassword|PostgreSQL|SQLite|Simple|PgBoss|SMTP|SendGrid|Mailgun|Dummy)/,
-            /(ALL|GET|POST|PUT|DELETE)/
-        ),
+    escape_sequence: $ => token.immediate(/\\./),
 
-        js_import: $ => seq(
-            'import',
-            $.variable,
-            'from',
-            $.string
-        ),
+    number: $ => token(/-?\d+(\.\d+)?/),
 
-        json_closure: $ => seq('{=json', repeat($._definition), 'json=}'),
+    constant: $ => choice(
+      'true',
+      'false',
+      'EmailAndPassword',
+      'PostgreSQL',
+      'SQLite',
+      'Simple',
+      'PgBoss',
+      'SMTP',
+      'SendGrid',
+      'Mailgun',
+      'Dummy',
+      'ALL',
+      'GET',
+      'POST',
+      'PUT',
+      'DELETE'
+    ),
 
-        prisma_closure: $ => seq('{=psl', repeat($._definition), 'psl=}'),
+    js_import: $ => seq(
+      'import',
+      optional($.import_statement),
+      'from',
+      $.string
+    ),
 
-        array: $ => seq(
-            '[',
-            optional(seq(
-                repeat(seq($._definition, ',')),
-                $._definition
-            )),
-            ']'
-        ),
+    import_statement: $ => seq(
+      '{',
+      repeat(seq($.variable, optional(','))),
+      '}'
+    ),
 
-        dict: $ => seq(
-            '{',
-            optional(seq(
-                repeat(seq($.dict_key, ':', $._definition, ',')),
-                $.dict_key, ':', $._definition
-            )),
-            '}'
-        ),
+    prisma_closure: $ => seq(
+      '{=psl',
+      repeat(/[^=]*/),
+      'psl=}'
+    ),
 
-        dict_key: $ => choice(
-            /[a-zA-Z_][0-9a-zA-Z_]*/,  // Unquoted keys
-            $.string                   // Quoted keys
-        ),
+    json_closure: $ => seq(
+      '{=json',
+      repeat(/[^=]*/),
+      'json=}'
+    ),
 
-        variable: $ => prec(1, /[a-zA-Z][0-9a-zA-Z]*/),
+    array: $ => seq(
+      '[',
+      optional(seq($.value, repeat(seq(',', $.value)))),
+      ']'
+    ),
 
-        string_content: $ => /\\./
-    }
+    dictionary: $ => seq(
+      '{',
+      optional(seq($.dict_entry, repeat(seq(',', $.dict_entry)))),
+      '}'
+    ),
+
+    dict_entry: $ => seq($.variable, ':', $.value)
+  }
 });
+

@@ -31,3 +31,4 @@
 (array) @punctuation.bracket
 (dict) @punctuation.bracket
 (dict_key) @field
+
