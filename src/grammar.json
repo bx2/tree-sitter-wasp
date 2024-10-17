@@ -346,7 +346,7 @@
     },
     "dict_key": {
       "type": "PATTERN",
-      "value": "[a-zA-Z]+"
+      "value": "[a-zA-Z][0-9a-zA-Z]*"
     },
     "variable": {
       "type": "PREC",

@@ -68,6 +68,11 @@
     }
   },
   {
+    "type": "dict_key",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "js_import",
     "named": true,
     "fields": {},
@@ -271,10 +276,6 @@
   {
     "type": "]",
     "named": false
-  },
-  {
-    "type": "dict_key",
-    "named": true
   },
   {
     "type": "from",

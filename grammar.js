@@ -1,6 +1,6 @@
 /**
  * @file Wasp grammar for tree-sitter
- * @author Bartosz Burclaf <burclaf@gmail.com>
+ * @author Bartosz Burclaf
  * @license MIT
  */
 
@@ -54,7 +54,12 @@ module.exports = grammar({
             /(ALL|GET|POST|PUT|DELETE)/
         ),
 
-        js_import: $ => seq('import', $.variable, 'from', $.string),
+        js_import: $ => seq(
+            'import',
+            $.variable,
+            'from',
+            $.string
+        ),
 
         json_closure: $ => seq('{=json', repeat($._definition), 'json=}'),
 
@@ -78,10 +83,11 @@ module.exports = grammar({
             '}'
         ),
 
-        dict_key: $ => /[a-zA-Z]+/,
+        dict_key: $ => /[a-zA-Z][0-9a-zA-Z]*/,
 
         variable: $ => prec(1, /[a-zA-Z][0-9a-zA-Z]*/),
 
         string_content: $ => /\\./
     }
 });
+
