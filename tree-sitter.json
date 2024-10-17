@@ -1,0 +1,21 @@
+{
+    "name": "wasp",
+    "type": "programming",
+    "scope": "source.wasp",
+    "contentRegex": ".*",
+    "highlights": "highlights.scm",
+    "injection-regex": "",
+    "file-types": ["wasp"],
+    "main": "grammar.js",
+    "metadata": {
+        "version": "0.0.1"
+    },
+    "grammars": [
+        {
+            "name": "wasp",
+            "path": "grammar.js",
+            "scope": "source.wasp"
+        }
+    ]
+}
+
