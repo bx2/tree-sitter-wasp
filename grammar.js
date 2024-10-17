@@ -19,7 +19,6 @@ module.exports = grammar({
       $.value
     ),
 
-
     comment: $ => choice(
         seq('//', /.*/),
         seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '*/')
