@@ -92,4 +92,3 @@ tree-sitter playground
 > [!TIP]
 > If you don't want to use the playground, you can also open the wasp file you want to test and execute `:Inspect` or `:InspectTree` inside of the neovim.
 
-
