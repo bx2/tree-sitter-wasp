@@ -3,6 +3,7 @@
 
 ;; Highlight declaration types (e.g., app, route, page, entity)
 (declaration_type) @keyword
+(declaration_name) @keyword
 
 ;; Highlight identifiers (e.g., names of declarations and fields)
 (identifier) @variable
