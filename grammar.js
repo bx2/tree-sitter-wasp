@@ -7,128 +7,91 @@
 /// <reference declaration_types="tree-sitter-cli/dsl" />
 
 module.exports = grammar({
-    name: 'wasp',
+  name: 'wasp',
 
-    rules: {
-        source_file: $ => repeat($.declaration),
+  rules: {
+    source_file: $ => repeat($.declaration),
 
-        declaration: $ => choice(
-            $.comment,
-            $.declaration_type,
-            $.variable,
-            $.value
+    declaration: $ => seq(
+      $.declaration_type,
+      $.declaration_name,
+      $.declaration_body
+    ),
+
+    declaration_type: $ => choice(
+      'app',
+      'route',
+      'page',
+      'entity'
+      // Add more declaration types here...
+    ),
+
+    declaration_name: $ => $.identifier,
+
+    declaration_body: $ => seq(
+      '{',
+      optional(seq($.field, repeat(seq(',', $.field)))),
+      '}'
+    ),
+
+    field: $ => seq(
+      $.identifier,
+      ':',
+      $._value
+    ),
+
+    _value: $ => choice(
+      $.string,
+      $.number,
+      $.bool,
+      $.import_statement,
+      $.identifier,
+      $.array,
+      $.dict
+    ),
+
+    array: $ => seq(
+      '[',
+      optional(seq($._value, repeat(seq(',', $._value)))),
+      ']'
+    ),
+
+    dict: $ => seq(
+      '{',
+      optional(seq($.field, repeat(seq(',', $.field)))),
+      '}'
+    ),
+
+    import_statement: $ => seq(
+        'import',
+        choice(
+            $.default_import,
+            $.named_import,
+            seq($.default_import, ',', $.named_import)
         ),
+        'from',
+        $.string
+    ),
 
-        comment: $ => choice(
-            seq('//', /.*/),
-            seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '*/')
-        ),
+    default_import: $ => $.identifier,
 
-        declaration_type: $ => token(choice(
-            'action',
-            'apiNamespace',
-            'api',
-            'app',
-            'entity',
-            'job',
-            'page',
-            'query',
-            'route',
-            'crud'
-        )),
+    named_import: $ => seq(
+        '{',
+        repeat(seq($.identifier, optional(seq('as', $.alias)), optional(','))),
+        '}'
+    ),
 
-        variable: $ => /[a-zA-Z][0-9a-zA-Z]*/,
-        key: $ => $.variable,
+    alias: $ => $.identifier,
 
-        value: $ => choice(
-            $.string,
-            $.number,
-            $.constant,
-            $.js_import,
-            $.prisma_closure,
-            $.json_closure,
-            $.array,
-            $.dictionary
-        ),
+    identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
 
-        string: $ => seq(
-            '"',
-            repeat(choice($.string_content, $.escape_sequence)),
-            '"'
-        ),
+    string: $ => /"(\\.|[^"])*"/,
 
-        string_content: $ => token.immediate(prec(1, /[^"\\]+/)),
+    number: $ => /[0-9]+(\.[0-9]+)?/,
 
-        escape_sequence: $ => token.immediate(/\\./),
+    bool: $ => choice('true', 'false'),
 
-        number: $ => token(/-?\d+(\.\d+)?/),
-
-        constant: $ => choice(
-            'true',
-            'false',
-            'EmailAndPassword',
-            'PostgreSQL',
-            'SQLite',
-            'Simple',
-            'PgBoss',
-            'SMTP',
-            'SendGrid',
-            'Mailgun',
-            'Dummy',
-            'ALL',
-            'GET',
-            'POST',
-            'PUT',
-            'DELETE'
-        ),
-
-        js_import: $ => seq(
-            'import',
-            choice(
-                $.default_import,
-                $.named_import,
-                seq($.default_import, ',', $.named_import)
-            ),
-            'from',
-            $.string
-        ),
-
-        default_import: $ => $.variable,
-
-        named_import: $ => seq(
-            '{',
-            repeat(seq($.variable, optional(seq('as', $.alias)), optional(','))),
-            '}'
-        ),
-
-        alias: $ => $.variable,
-
-
-        prisma_closure: $ => seq(
-            '{=psl',
-            repeat(/[^=]*/),
-            'psl=}'
-        ),
-
-        json_closure: $ => seq(
-            '{=json',
-            repeat(/[^=]*/),
-            'json=}'
-        ),
-
-        array: $ => seq(
-            '[',
-            optional(seq($.value, repeat(seq(',', $.value)))),
-            ']'
-        ),
-
-        dictionary: $ => seq(
-            '{',
-            optional(seq($.dict_entry, repeat(seq(',', $.dict_entry)))),
-            '}'
-        ),
-
-        dict_entry: $ => seq($.key, ':', $.value)
-    }
+    comment: $ => token(seq('//', /.*/))
+  }
 });
 
