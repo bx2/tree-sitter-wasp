@@ -22,11 +22,16 @@ module.exports = grammar({
     ),
 
     declaration_type: $ => choice(
-      'app',
-      'route',
-      'page',
-      'entity'
-      // Add more declaration types here...
+        'action',
+        'apiNamespace',
+        'api',
+        'app',
+        'entity',
+        'job',
+        'page',
+        'query',
+        'route',
+        'crud'
     ),
 
     declaration_name: $ => $.identifier,
