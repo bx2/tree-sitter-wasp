@@ -276,6 +276,18 @@
     "named": false
   },
   {
+    "type": "action",
+    "named": false
+  },
+  {
+    "type": "api",
+    "named": false
+  },
+  {
+    "type": "apiNamespace",
+    "named": false
+  },
+  {
     "type": "app",
     "named": false
   },
@@ -286,6 +298,10 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "crud",
+    "named": false
   },
   {
     "type": "entity",
@@ -308,6 +324,10 @@
     "named": false
   },
   {
+    "type": "job",
+    "named": false
+  },
+  {
     "type": "number",
     "named": true
   },
@@ -318,6 +338,10 @@
   {
     "type": "path",
     "named": true
+  },
+  {
+    "type": "query",
+    "named": false
   },
   {
     "type": "route",

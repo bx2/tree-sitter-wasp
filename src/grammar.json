@@ -40,11 +40,27 @@
       "members": [
         {
           "type": "STRING",
+          "value": "action"
+        },
+        {
+          "type": "STRING",
+          "value": "apiNamespace"
+        },
+        {
+          "type": "STRING",
+          "value": "api"
+        },
+        {
+          "type": "STRING",
           "value": "app"
         },
         {
           "type": "STRING",
-          "value": "route"
+          "value": "entity"
+        },
+        {
+          "type": "STRING",
+          "value": "job"
         },
         {
           "type": "STRING",
@@ -52,7 +68,15 @@
         },
         {
           "type": "STRING",
-          "value": "entity"
+          "value": "query"
+        },
+        {
+          "type": "STRING",
+          "value": "route"
+        },
+        {
+          "type": "STRING",
+          "value": "crud"
         }
       ]
     },
