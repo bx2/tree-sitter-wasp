@@ -83,11 +83,13 @@ module.exports = grammar({
             '}'
         ),
 
-        dict_key: $ => /[a-zA-Z][0-9a-zA-Z]*/,
+        dict_key: $ => choice(
+            /[a-zA-Z_][0-9a-zA-Z_]*/,  // Unquoted keys
+            $.string                   // Quoted keys
+        ),
 
         variable: $ => prec(1, /[a-zA-Z][0-9a-zA-Z]*/),
 
         string_content: $ => /\\./
     }
 });
-
