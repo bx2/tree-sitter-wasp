@@ -202,7 +202,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "path",
           "named": true
         }
       ]
@@ -237,6 +237,10 @@
       "required": false,
       "types": [
         {
+          "type": "comment",
+          "named": true
+        },
+        {
           "type": "declaration",
           "named": true
         }
@@ -268,6 +272,10 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "entity",
     "named": false
   },
@@ -294,6 +302,10 @@
   {
     "type": "page",
     "named": false
+  },
+  {
+    "type": "path",
+    "named": true
   },
   {
     "type": "route",

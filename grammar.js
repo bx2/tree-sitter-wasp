@@ -10,7 +10,10 @@ module.exports = grammar({
   name: 'wasp',
 
   rules: {
-    source_file: $ => repeat($.declaration),
+    source_file: $ => repeat(choice(
+      $.comment,
+      $.declaration
+    )),
 
     declaration: $ => seq(
       $.declaration_type,
@@ -34,11 +37,7 @@ module.exports = grammar({
       '}'
     ),
 
-    field: $ => seq(
-      $.identifier,
-      ':',
-      $._value
-    ),
+    field: $ => seq($.identifier, ':', $._value),
 
     _value: $ => choice(
       $.string,
@@ -70,7 +69,7 @@ module.exports = grammar({
             seq($.default_import, ',', $.named_import)
         ),
         'from',
-        $.string
+        $.path
     ),
 
     default_import: $ => $.identifier,
@@ -86,6 +85,7 @@ module.exports = grammar({
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
 
     string: $ => /"(\\.|[^"])*"/,
+    path: $ => token(seq('"@src/', /[^"]*/, '"')),
 
     number: $ => /[0-9]+(\.[0-9]+)?/,
 
