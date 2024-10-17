@@ -6,10 +6,10 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "definition"
+        "name": "declaration"
       }
     },
-    "definition": {
+    "declaration": {
       "type": "CHOICE",
       "members": [
         {
@@ -18,7 +18,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type"
+          "name": "declaration_type"
         },
         {
           "type": "SYMBOL",
@@ -65,7 +65,7 @@
         }
       ]
     },
-    "type": {
+    "declaration_type": {
       "type": "TOKEN",
       "content": {
         "type": "CHOICE",

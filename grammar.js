@@ -4,17 +4,17 @@
  * @license MIT
  */
 
-/// <reference types="tree-sitter-cli/dsl" />
+/// <reference declaration_types="tree-sitter-cli/dsl" />
 
 module.exports = grammar({
     name: 'wasp',
 
     rules: {
-        source_file: $ => repeat($.definition),
+        source_file: $ => repeat($.declaration),
 
-        definition: $ => choice(
+        declaration: $ => choice(
             $.comment,
-            $.type,
+            $.declaration_type,
             $.variable,
             $.value
         ),
@@ -24,7 +24,7 @@ module.exports = grammar({
             seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '*/')
         ),
 
-        type: $ => token(choice(
+        declaration_type: $ => token(choice(
             'action',
             'apiNamespace',
             'api',
