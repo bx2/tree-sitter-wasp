@@ -117,6 +117,10 @@
       "type": "PATTERN",
       "value": "[a-zA-Z][0-9a-zA-Z]*"
     },
+    "key": {
+      "type": "SYMBOL",
+      "name": "variable"
+    },
     "value": {
       "type": "CHOICE",
       "members": [
@@ -527,7 +531,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "variable"
+          "name": "key"
         },
         {
           "type": "STRING",

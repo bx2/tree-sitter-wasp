@@ -38,6 +38,7 @@ module.exports = grammar({
         )),
 
         variable: $ => /[a-zA-Z][0-9a-zA-Z]*/,
+        key: $ => $.variable,
 
         value: $ => choice(
             $.string,
@@ -127,7 +128,7 @@ module.exports = grammar({
             '}'
         ),
 
-        dict_entry: $ => seq($.variable, ':', $.value)
+        dict_entry: $ => seq($.key, ':', $.value)
     }
 });
 
