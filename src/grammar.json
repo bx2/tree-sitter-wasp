@@ -289,10 +289,28 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "import_statement"
+              "name": "default_import"
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "named_import"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "default_import"
+                },
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "named_import"
+                }
+              ]
             }
           ]
         },
@@ -306,7 +324,11 @@
         }
       ]
     },
-    "import_statement": {
+    "default_import": {
+      "type": "SYMBOL",
+      "name": "variable"
+    },
+    "named_import": {
       "type": "SEQ",
       "members": [
         {
@@ -321,6 +343,27 @@
               {
                 "type": "SYMBOL",
                 "name": "variable"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "as"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "alias"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
               },
               {
                 "type": "CHOICE",
@@ -342,6 +385,10 @@
           "value": "}"
         }
       ]
+    },
+    "alias": {
+      "type": "SYMBOL",
+      "name": "variable"
     },
     "prisma_closure": {
       "type": "SEQ",
